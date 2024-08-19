@@ -1,0 +1,15 @@
+{
+  "name": "com.sharedunityservices.json",
+  "displayName": "SharedServices.Json",
+  "version": "1.0.0",
+  "description": "<b>Dependencies:</b> https://github.com/sharedunityservices/SharedServices..Core.git\n\n<b>SharedServices.Json</b> is a Unity package that provides a simple way to work with JSON files in Unity.",
+  "unity": "2020.1",
+  "author": {
+    "name": "ETdoFresh",
+    "email": "etdofresh@gmail.com",
+    "url": "https://github.com/sharedunityservices"
+  },
+  "dependencies": {
+    "com.sharedunityservices.core": "1.0.0"
+  }
+}
