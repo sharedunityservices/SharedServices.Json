@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SharedServices.Log;
 using SharedServices.V1;
 
@@ -30,6 +31,14 @@ namespace SharedServices.Json.V1
             var obj = JsonConvert.DeserializeObject<T>(json, settings ?? DefaultSettings);
             ILog.Trace($"Deserialized JSON to {typeof(T).Name}", obj);
             return obj;
+        }
+
+        public static JToken FromJson(string json)
+        {
+            ILog.Trace($"Deserializing JSON to JToken\n{json}", typeof(IJsonService));
+            var jToken = JToken.Parse(json);
+            ILog.Trace($"Deserialized JSON to JToken", jToken);
+            return jToken;
         }
     }
 }

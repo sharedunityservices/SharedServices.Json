@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace SharedServices.Json.V1
 {
@@ -10,5 +11,8 @@ namespace SharedServices.Json.V1
 
         public T FromJson<T>(string json, JsonSerializerSettings settings = null) => 
             IJsonService.FromJson<T>(json, settings);
+        
+        public JToken FromJson(string json) =>
+            IJsonService.FromJson(json);
     }
 }
