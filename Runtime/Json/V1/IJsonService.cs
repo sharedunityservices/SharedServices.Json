@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SharedServices.Log;
@@ -9,7 +10,7 @@ namespace SharedServices.Json.V1
     {
         private static readonly JsonSerializerSettings DefaultSettings = new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.Auto,
+            TypeNameHandling = TypeNameHandling.None,
             NullValueHandling = NullValueHandling.Ignore,
             DefaultValueHandling = DefaultValueHandling.Ignore,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
@@ -39,6 +40,33 @@ namespace SharedServices.Json.V1
             var jToken = JToken.Parse(json);
             ILog.Trace($"Deserialized JSON to JToken", jToken);
             return jToken;
+        }
+        
+        public static Dictionary<string, object> ToDictionary(object obj)
+        { 
+            return ToDictionaryListOrValue(obj) as Dictionary<string, object>;
+        }
+        
+        private static object ToDictionaryListOrValue(object obj)
+        {
+            var jToken = JToken.FromObject(obj);
+            switch (jToken.Type)
+            {
+                case JTokenType.Object:
+                    var dictionary = new Dictionary<string, object>();
+                    foreach (var property in jToken.Children<JProperty>()) 
+                        dictionary.Add(property.Name, ToDictionary(property.Value));
+                    return dictionary;
+                
+                case JTokenType.Array:
+                    var list = new List<object>();
+                    foreach (var value in jToken.Children()) 
+                        list.Add(ToDictionary(value));
+                    return list;
+                
+                default:
+                    return ((JValue) jToken).Value;
+            }
         }
     }
 }
