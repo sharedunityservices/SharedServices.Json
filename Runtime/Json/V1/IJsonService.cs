@@ -55,7 +55,7 @@ namespace SharedServices.Json.V1
                 case JTokenType.Object:
                     var dictionary = new Dictionary<string, object>();
                     foreach (var property in jToken.Children<JProperty>()) 
-                        dictionary.Add(property.Name, ToDictionary(property.Value));
+                        dictionary.Add(property.Name, ToDictionaryListOrValue(property.Value));
                     return dictionary;
                 
                 case JTokenType.Array:
